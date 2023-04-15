@@ -41,7 +41,7 @@ const (
 	tagsDelimiter = ","
 )
 
-//go:generate mockgen -destination=../mocks/mock_repo.go -package=mocks . Repo
+//go:generate mockgen -destination=../mocks/mock_repo.go -package=mocks -mock_names Repo=BookmarkRepoMock . Repo
 type Repo interface {
 	FindByName(string) ([]Bookmark, error)
 	FindByTag(string) ([]Bookmark, error)

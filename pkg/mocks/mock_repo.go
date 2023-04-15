@@ -11,31 +11,31 @@ import (
 	gomock "github.com/golang/mock/gomock"
 )
 
-// MockRepo is a mock of Repo interface.
-type MockRepo struct {
+// BookmarkRepoMock is a mock of Repo interface.
+type BookmarkRepoMock struct {
 	ctrl     *gomock.Controller
-	recorder *MockRepoMockRecorder
+	recorder *BookmarkRepoMockMockRecorder
 }
 
-// MockRepoMockRecorder is the mock recorder for MockRepo.
-type MockRepoMockRecorder struct {
-	mock *MockRepo
+// BookmarkRepoMockMockRecorder is the mock recorder for BookmarkRepoMock.
+type BookmarkRepoMockMockRecorder struct {
+	mock *BookmarkRepoMock
 }
 
-// NewMockRepo creates a new mock instance.
-func NewMockRepo(ctrl *gomock.Controller) *MockRepo {
-	mock := &MockRepo{ctrl: ctrl}
-	mock.recorder = &MockRepoMockRecorder{mock}
+// NewBookmarkRepoMock creates a new mock instance.
+func NewBookmarkRepoMock(ctrl *gomock.Controller) *BookmarkRepoMock {
+	mock := &BookmarkRepoMock{ctrl: ctrl}
+	mock.recorder = &BookmarkRepoMockMockRecorder{mock}
 	return mock
 }
 
 // EXPECT returns an object that allows the caller to indicate expected use.
-func (m *MockRepo) EXPECT() *MockRepoMockRecorder {
+func (m *BookmarkRepoMock) EXPECT() *BookmarkRepoMockMockRecorder {
 	return m.recorder
 }
 
 // Create mocks base method.
-func (m *MockRepo) Create(arg0 *bookmarks.Bookmark) error {
+func (m *BookmarkRepoMock) Create(arg0 *bookmarks.Bookmark) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", arg0)
 	ret0, _ := ret[0].(error)
@@ -43,13 +43,13 @@ func (m *MockRepo) Create(arg0 *bookmarks.Bookmark) error {
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockRepoMockRecorder) Create(arg0 interface{}) *gomock.Call {
+func (mr *BookmarkRepoMockMockRecorder) Create(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRepo)(nil).Create), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*BookmarkRepoMock)(nil).Create), arg0)
 }
 
 // FindByName mocks base method.
-func (m *MockRepo) FindByName(arg0 string) ([]bookmarks.Bookmark, error) {
+func (m *BookmarkRepoMock) FindByName(arg0 string) ([]bookmarks.Bookmark, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindByName", arg0)
 	ret0, _ := ret[0].([]bookmarks.Bookmark)
@@ -58,13 +58,13 @@ func (m *MockRepo) FindByName(arg0 string) ([]bookmarks.Bookmark, error) {
 }
 
 // FindByName indicates an expected call of FindByName.
-func (mr *MockRepoMockRecorder) FindByName(arg0 interface{}) *gomock.Call {
+func (mr *BookmarkRepoMockMockRecorder) FindByName(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByName", reflect.TypeOf((*MockRepo)(nil).FindByName), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByName", reflect.TypeOf((*BookmarkRepoMock)(nil).FindByName), arg0)
 }
 
 // FindByTag mocks base method.
-func (m *MockRepo) FindByTag(arg0 string) ([]bookmarks.Bookmark, error) {
+func (m *BookmarkRepoMock) FindByTag(arg0 string) ([]bookmarks.Bookmark, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindByTag", arg0)
 	ret0, _ := ret[0].([]bookmarks.Bookmark)
@@ -73,7 +73,7 @@ func (m *MockRepo) FindByTag(arg0 string) ([]bookmarks.Bookmark, error) {
 }
 
 // FindByTag indicates an expected call of FindByTag.
-func (mr *MockRepoMockRecorder) FindByTag(arg0 interface{}) *gomock.Call {
+func (mr *BookmarkRepoMockMockRecorder) FindByTag(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByTag", reflect.TypeOf((*MockRepo)(nil).FindByTag), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindByTag", reflect.TypeOf((*BookmarkRepoMock)(nil).FindByTag), arg0)
 }
