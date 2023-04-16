@@ -84,7 +84,7 @@ func TestRundFindCallsFindBookmark(t *testing.T) {
 	testApp.App.Run([]string{"find", "-n", "banana"})
 }
 
-func findByName(t *testing.T, option string) {
+func testFindByName(t *testing.T, option string) {
 	testApp := getTestApp(t)
 	testApp.RepoMock.
 		EXPECT().
@@ -105,11 +105,11 @@ func findByName(t *testing.T, option string) {
 }
 
 func TestFindByNameLongForm(t *testing.T) {
-	findByName(t, "--name")
+	testFindByName(t, "--name")
 }
 
 func TestFindByNameShortForm(t *testing.T) {
-	findByName(t, "-n")
+	testFindByName(t, "-n")
 }
 
 func TestFindByNameErrorWhenNotEnoughArgs(t *testing.T) {
