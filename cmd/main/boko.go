@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"os"
 
@@ -26,8 +25,8 @@ func getApp() *app.App {
 
 func main() {
 	app := getApp()
-	fmt.Println(os.Args)
-	if err := app.AddBookmark(os.Args[2:]); err != nil {
+	if err := app.Run(os.Args[1:]); err != nil {
 		log.Fatal(err)
 	}
+
 }

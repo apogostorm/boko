@@ -35,13 +35,13 @@ func TestAddSavesToDb(t *testing.T) {
 			Name: "banana",
 			Tags: []string{},
 		}))
-	testApp.App.AddBookmark([]string{"banana.com", "banana"})
+	testApp.App.Run([]string{"add", "banana.com", "banana"})
 }
 
 func TestAddRequireNameAndUrl(t *testing.T) {
 	testApp := getTestApp(t)
 
-	err := testApp.App.AddBookmark([]string{"banana.com"})
+	err := testApp.App.Run([]string{"add", "banana.com"})
 
 	if err == nil {
 		t.Errorf("Expected an error when giving only a url")
@@ -57,7 +57,7 @@ func TestAddSavesTags(t *testing.T) {
 			Tags: []string{"fruit", "yellow"},
 		}))
 
-	testApp.App.AddBookmark([]string{"", "", "fruit", "yellow"})
+	testApp.App.Run([]string{"add", "", "", "fruit", "yellow"})
 }
 
 func TestAddReturnsDBError(t *testing.T) {
@@ -67,7 +67,7 @@ func TestAddReturnsDBError(t *testing.T) {
 		Create(gomock.Any()).
 		Return(fmt.Errorf("DB error"))
 
-	err := testApp.App.AddBookmark([]string{"", ""})
+	err := testApp.App.Run([]string{"add", "", ""})
 
 	if err == nil {
 		t.Errorf("Expected an error when saving to db")

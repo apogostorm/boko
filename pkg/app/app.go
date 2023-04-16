@@ -12,14 +12,15 @@ type App struct {
 }
 
 const (
-	helpMessage = "Usage: boko add <url> <name> [tags...]"
+	addHelpMessage     = "Usage: boko add <url> <name> [tags...]"
+	generalHelpMessage = "Usage: boko add|find <args>"
 )
 
-func (app *App) AddBookmark(args []string) error {
+func (app *App) addBookmark(args []string) error {
 
 	if len(args) < 2 {
 		return errors.New(
-			fmt.Sprintf("Not enough arguments.\n%s", helpMessage),
+			fmt.Sprintf("Not enough arguments.\n%s", addHelpMessage),
 		)
 	}
 
@@ -28,4 +29,17 @@ func (app *App) AddBookmark(args []string) error {
 		Name: args[1],
 		Tags: args[2:],
 	})
+}
+
+func (app *App) Run(args []string) error {
+	if len(args) == 0 {
+		return errors.New(generalHelpMessage)
+	}
+
+	switch args[0] {
+	case "add":
+		return app.addBookmark(args[1:])
+	default:
+		return errors.New(generalHelpMessage)
+	}
 }
