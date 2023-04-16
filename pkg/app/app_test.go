@@ -131,3 +131,41 @@ func TestFindBookmarksErrorWhenNotEnoughArgs(t *testing.T) {
 		t.Errorf("Expected an error when not giving enough arguments")
 	}
 }
+
+func testFindByTag(t *testing.T, option string) {
+	testApp := getTestApp(t)
+	testApp.RepoMock.
+		EXPECT().
+		FindByTag("banana").
+		Return([]bookmarks.Bookmark{{Id: 123}}, nil)
+
+	items, err := testApp.App.findBookmarks([]string{option, "banana"})
+
+	if err != nil {
+		t.Errorf("Expected no error, got %s", err)
+	}
+	if len(items) != 1 {
+		t.Errorf("Expected 1 item, got %d", len(items))
+	}
+	if items[0].Id != 123 {
+		t.Errorf("Expected item with id 123, got %d", items[0].Id)
+	}
+}
+
+func TestFindByTagLongForm(t *testing.T) {
+	testFindByTag(t, "--tag")
+}
+
+func TestFindByTagShortForm(t *testing.T) {
+	testFindByTag(t, "-t")
+}
+
+func TestFindByTagErrorWhenNotEnoughArgs(t *testing.T) {
+	testApp := getTestApp(t)
+
+	_, err := testApp.App.findBookmarks([]string{"-t"})
+
+	if err == nil {
+		t.Errorf("Expected an error when not giving enough arguments")
+	}
+}

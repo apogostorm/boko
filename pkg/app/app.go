@@ -43,6 +43,11 @@ func (app *App) findBookmarks(args []string) ([]bookmarks.Bookmark, error) {
 			return nil, errors.New(fmt.Sprintf("Not enough arguments.\n%s", findHelpMessage))
 		}
 		return app.BookmarkRepo.FindByName(args[1])
+	case "--tag", "-t":
+		if len(args) < 2 {
+			return nil, errors.New(fmt.Sprintf("Not enough arguments.\n%s", findHelpMessage))
+		}
+		return app.BookmarkRepo.FindByTag(args[1])
 	default:
 		return nil, errors.New("not implemented")
 	}

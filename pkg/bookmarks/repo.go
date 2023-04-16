@@ -91,7 +91,7 @@ func (r *repo) find(sqlQuery string, query string) ([]Bookmark, error) {
 		return nil, err
 	}
 
-	var bookmarks []Bookmark
+	bookmarks := []Bookmark{}
 	for rows.Next() {
 		var b Bookmark
 		var tags string
