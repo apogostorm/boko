@@ -12,10 +12,10 @@ import (
 
 func getApp() *app.App {
 	dirname, err := os.UserHomeDir()
-	dbFileName := dirname + "/.bookmarks/bookmarks.db"
+	dbFileName := dirname + "/.boko/bookmarks.db"
 	db, err := sql.Open("sqlite3", dbFileName)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Failed to open database: ", err)
 	}
 	r := bookmarks.NewRepo(db)
 	return &app.App{

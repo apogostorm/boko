@@ -17,6 +17,8 @@ const (
 	addHelpMessage     = "Usage: boko add <url> <name> [tag1 tag2 ... tagn]"
 	findHelpMessage    = "Usage: boko find <name-or-tag> | (--name|-n <name>, --tag|-t <tag>)"
 	generalHelpMessage = "Usage: boko add|find <args>"
+
+	defaultImagePath = "~/.boko/icons/default.png"
 )
 
 func (app *App) addBookmark(args []string) error {
@@ -28,9 +30,10 @@ func (app *App) addBookmark(args []string) error {
 	}
 
 	return app.BookmarkRepo.Create(&bookmarks.Bookmark{
-		Url:  args[0],
-		Name: args[1],
-		Tags: args[2:],
+		Url:       args[0],
+		Name:      args[1],
+		Tags:      args[2:],
+		ImagePath: defaultImagePath,
 	})
 }
 

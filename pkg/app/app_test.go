@@ -33,9 +33,10 @@ func TestAddSavesToDb(t *testing.T) {
 	testApp.RepoMock.
 		EXPECT().
 		Create(gomock.Eq(&bookmarks.Bookmark{
-			Url:  "banana.com",
-			Name: "banana",
-			Tags: []string{},
+			Url:       "banana.com",
+			Name:      "banana",
+			Tags:      []string{},
+			ImagePath: "~/.boko/icons/default.png",
 		}))
 	testApp.App.Run([]string{"add", "banana.com", "banana"})
 }
@@ -56,7 +57,8 @@ func TestAddSavesTags(t *testing.T) {
 	testApp.RepoMock.
 		EXPECT().
 		Create(gomock.Eq(&bookmarks.Bookmark{
-			Tags: []string{"fruit", "yellow"},
+			ImagePath: "~/.boko/icons/default.png",
+			Tags:      []string{"fruit", "yellow"},
 		}))
 
 	testApp.App.Run([]string{"add", "", "", "fruit", "yellow"})
