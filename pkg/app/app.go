@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/apogostorm/boko/pkg/bookmarks"
 )
@@ -13,8 +14,8 @@ type App struct {
 }
 
 const (
-	addHelpMessage     = "Usage: boko add <url> <name> [tags...]"
-	findHelpMessage    = "Usage: boko find --name|-n <name>"
+	addHelpMessage     = "Usage: boko add <url> <name> [tag1 tag2 ... tagn]"
+	findHelpMessage    = "Usage: boko find <name-or-tag> | (--name|-n <name>, --tag|-t <tag>)"
 	generalHelpMessage = "Usage: boko add|find <args>"
 )
 
@@ -37,20 +38,15 @@ func (app *App) findBookmarks(args []string) ([]bookmarks.Bookmark, error) {
 	if len(args) == 0 {
 		return nil, errors.New(fmt.Sprintf("Not enough arguments.\n%s", findHelpMessage))
 	}
-	switch args[0] {
-	case "--name", "-n":
-		if len(args) < 2 {
-			return nil, errors.New(fmt.Sprintf("Not enough arguments.\n%s", findHelpMessage))
+	if len(args) == 2 {
+		switch args[0] {
+		case "--name", "-n":
+			return app.BookmarkRepo.FindByName(args[1])
+		case "--tag", "-t":
+			return app.BookmarkRepo.FindByTag(args[1])
 		}
-		return app.BookmarkRepo.FindByName(args[1])
-	case "--tag", "-t":
-		if len(args) < 2 {
-			return nil, errors.New(fmt.Sprintf("Not enough arguments.\n%s", findHelpMessage))
-		}
-		return app.BookmarkRepo.FindByTag(args[1])
-	default:
-		return nil, errors.New("not implemented")
 	}
+	return app.BookmarkRepo.Find(strings.Join(args, " "))
 }
 
 func (app *App) Run(args []string) error {

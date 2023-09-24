@@ -52,59 +52,49 @@ func TestAppE2e(t *testing.T) {
 	// Find by name
 	e2eTestFindByName(t, app)
 	e2eTestFindByTag(t, app)
+	e2eTestFind(t, app)
 }
 
 func e2eTestFindByName(t *testing.T, app App) {
-	bookmarks, err := app.findBookmarks([]string{"-n", "banana"})
+	results, err := app.findBookmarks([]string{"-n", "banana"})
 	if err != nil {
 		t.Errorf("Error while finding bookmark: %s", err)
 	}
-
-	if len(bookmarks) != 1 {
-		t.Errorf("Expected 1 bookmark, got %d", len(bookmarks))
-	}
-
-	bookmark := bookmarks[0]
-	d := data[0]
-
-	if bookmark.Name != d.Name {
-		t.Errorf("Expected name %s, got %s", d.Name, bookmark.Name)
-	}
-	if bookmark.Url != d.Url {
-		t.Errorf("Expected url %s, got %s", d.Url, bookmark.Url)
-	}
-	if bookmark.Tags[0] != d.Tags[0] {
-		t.Errorf("Expected tag %s, got %s", d.Tags[0], bookmark.Tags[0])
-	}
-	if bookmark.Tags[1] != d.Tags[1] {
-		t.Errorf("Expected tag %s, got %s", d.Tags[1], bookmark.Tags[1])
-	}
+	compareBookmarks(t, data[0:1], results)
 }
 
 func e2eTestFindByTag(t *testing.T, app App) {
-	bookmarks, err := app.findBookmarks([]string{"-t", "fruit"})
+	results, err := app.findBookmarks([]string{"-t", "fruit"})
 	if err != nil {
 		t.Errorf("Error while finding bookmark: %s", err)
 	}
+	compareBookmarks(t, data[0:2], results)
+}
 
-	if len(bookmarks) != 2 {
-		t.Errorf("Expected 2 bookmark, got %d", len(bookmarks))
+func e2eTestFind(t *testing.T, app App) {
+	results, err := app.findBookmarks([]string{"an"})
+	if err != nil {
+		t.Errorf("Error while finding bookmark: %s", err)
 	}
+	compareBookmarks(t, []bookmarks.Bookmark{data[0], data[2]}, results)
+}
 
-	for i, bookmark := range bookmarks {
-
-		if bookmark.Name != data[i].Name {
-			t.Errorf("Expected name %s, got %s", data[i].Name, bookmark.Name)
+func compareBookmarks(t *testing.T, expected []bookmarks.Bookmark, results []bookmarks.Bookmark) {
+	if len(results) != len(expected) {
+		t.Errorf("Expected %d bookmark(s), got %d", len(expected), len(results))
+	}
+	for i, result := range results {
+		if result.Name != expected[i].Name {
+			t.Errorf("Expected name %s, got %s", expected[i].Name, result.Name)
 		}
-		if bookmark.Url != data[i].Url {
-			t.Errorf("Expected url %s, got %s", data[i].Url, bookmark.Url)
+		if result.Url != expected[i].Url {
+			t.Errorf("Expected url %s, got %s", expected[i].Url, result.Url)
 		}
-		if bookmark.Tags[0] != data[i].Tags[0] {
-			t.Errorf("Expected tag %s, got %s", data[i].Tags[0], bookmark.Tags[0])
+		if result.Tags[0] != expected[i].Tags[0] {
+			t.Errorf("Expected tag %s, got %s", expected[i].Tags[0], result.Tags[0])
 		}
-		if bookmark.Tags[1] != data[i].Tags[1] {
-			t.Errorf("Expected tag %s, got %s", data[i].Tags[1], bookmark.Tags[1])
+		if result.Tags[1] != expected[i].Tags[1] {
+			t.Errorf("Expected tag %s, got %s", expected[i].Tags[1], result.Tags[1])
 		}
-
 	}
 }

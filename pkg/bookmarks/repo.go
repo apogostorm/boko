@@ -38,6 +38,14 @@ const (
 	FROM bookmarks WHERE tags LIKE ?
 	`
 
+	findQuery = `
+	SELECT
+		id, name, url, 
+		COALESCE(tags, ''),
+		COALESCE(img_path, '') 
+	FROM bookmarks WHERE tags LIKE ? OR name LIKE ?
+	`
+
 	tagsDelimiter = ","
 )
 
@@ -45,6 +53,7 @@ const (
 type Repo interface {
 	FindByName(string) ([]Bookmark, error)
 	FindByTag(string) ([]Bookmark, error)
+	Find(string) ([]Bookmark, error)
 	Create(b *Bookmark) error
 }
 
@@ -56,12 +65,16 @@ func NewRepo(db *sql.DB) Repo {
 	return &repo{db}
 }
 
+func (r *repo) Find(query string) ([]Bookmark, error) {
+	return r.find(findQuery, like(query), like(query))
+}
+
 func (r *repo) FindByName(query string) ([]Bookmark, error) {
-	return r.find(findByNameQuery, query)
+	return r.find(findByNameQuery, like(query))
 }
 
 func (r *repo) FindByTag(query string) ([]Bookmark, error) {
-	return r.find(findByTagQuery, query)
+	return r.find(findByTagQuery, like(query))
 }
 
 func (r *repo) Create(b *Bookmark) error {
@@ -81,12 +94,12 @@ func (r *repo) Create(b *Bookmark) error {
 	return nil
 }
 
-func (r *repo) find(sqlQuery string, query string) ([]Bookmark, error) {
+func (r *repo) find(sqlQuery string, queries ...any) ([]Bookmark, error) {
 	if err := r.ensureTable(); err != nil {
 		return nil, err
 	}
 
-	rows, err := r.db.Query(sqlQuery, "%"+query+"%")
+	rows, err := r.db.Query(sqlQuery, queries...)
 	if err != nil {
 		return nil, err
 	}
@@ -108,4 +121,8 @@ func (r *repo) find(sqlQuery string, query string) ([]Bookmark, error) {
 func (r *repo) ensureTable() error {
 	_, err := r.db.Exec(ensureTableQuery)
 	return err
+}
+
+func like(query string) string {
+	return "%" + query + "%"
 }

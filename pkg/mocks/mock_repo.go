@@ -48,6 +48,21 @@ func (mr *BookmarkRepoMockMockRecorder) Create(arg0 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*BookmarkRepoMock)(nil).Create), arg0)
 }
 
+// Find mocks base method.
+func (m *BookmarkRepoMock) Find(arg0 string) ([]bookmarks.Bookmark, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", arg0)
+	ret0, _ := ret[0].([]bookmarks.Bookmark)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *BookmarkRepoMockMockRecorder) Find(arg0 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*BookmarkRepoMock)(nil).Find), arg0)
+}
+
 // FindByName mocks base method.
 func (m *BookmarkRepoMock) FindByName(arg0 string) ([]bookmarks.Bookmark, error) {
 	m.ctrl.T.Helper()
