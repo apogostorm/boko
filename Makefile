@@ -27,6 +27,10 @@ $(install_path) : $(wildcard pkg/*) $(command_source)
 $(build_path) : $(wildcard pkg/*) $(command_source)
 	go build -o $(build_path) $(command_source)
 
+.PHONY : setup
+setup :
+	go install github.com/golang/mock/mockgen
+
 .PHONY : uninstall
 uninstall: install
 	rm $(install_path)
