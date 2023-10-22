@@ -22,7 +22,6 @@ $(install_path) : $(wildcard pkg/*) $(command_source)
 	go install $(command_source)
 	mkdir -p $(home_path)/icons
 	cp resources/default.png $(home_path)/icons/default.png
-	ln -nfs $(install_path) /usr/local/bin/boko
 
 $(build_path) : $(wildcard pkg/*) $(command_source)
 	go build -o $(build_path) $(command_source)
@@ -34,4 +33,3 @@ setup :
 .PHONY : uninstall
 uninstall: install
 	rm $(install_path)
-	rm /usr/local/bin/boko
